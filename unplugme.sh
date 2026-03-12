@@ -10,6 +10,7 @@ HEALTH_LOG="$HOME/.unplugme/health_log.csv"
 
 # Ensure config exists
 if [ ! -f "$CONFIG_FILE" ]; then
+    mkdir -p "$(dirname "$CONFIG_FILE")"
     echo "TARGET_PCT=80" > "$CONFIG_FILE"
     echo "ENABLE_HEALTH_LOG=false" >> "$CONFIG_FILE"
     echo "MAX_LOG_SIZE_MB=1024" >> "$CONFIG_FILE"
@@ -17,12 +18,10 @@ if [ ! -f "$CONFIG_FILE" ]; then
     echo "# MAX_LOG_SIZE_MB: Maximum size in MB before the log file is cleared. Default is 1024 (1GB)." >> "$CONFIG_FILE"
 fi
 
-# Load config
-source "$CONFIG_FILE"
-
-# Default MAX_LOG_SIZE_MB if not set
-MAX_LOG_SIZE_MB=${MAX_LOG_SIZE_MB:-1024}
-MAX_LOG_SIZE_BYTES=$((MAX_LOG_SIZE_MB * 1024 * 1024))
+# Function to log messages
+log() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
+}
 
 # Function to check and clear log size
 check_log_size() {
@@ -36,13 +35,25 @@ check_log_size() {
     fi
 }
 
+# Load config
+source "$CONFIG_FILE"
+
+# Validate TARGET_PCT (must be an integer between 1 and 100)
+if ! [[ "$TARGET_PCT" =~ ^[0-9]+$ ]] || [ "$TARGET_PCT" -lt 1 ] || [ "$TARGET_PCT" -gt 100 ]; then
+    log "Error: Invalid TARGET_PCT in config.txt ('$TARGET_PCT'). Using default of 80."
+    TARGET_PCT=80
+fi
+
+# Validate MAX_LOG_SIZE_MB (must be a positive integer)
+if ! [[ "$MAX_LOG_SIZE_MB" =~ ^[0-9]+$ ]] || [ "$MAX_LOG_SIZE_MB" -lt 1 ]; then
+    log "Error: Invalid MAX_LOG_SIZE_MB in config.txt ('$MAX_LOG_SIZE_MB'). Using default of 1024."
+    MAX_LOG_SIZE_MB=1024
+fi
+
+MAX_LOG_SIZE_BYTES=$((MAX_LOG_SIZE_MB * 1024 * 1024))
+
 # Run log size checks (Main log only)
 check_log_size "$LOG_FILE"
-
-# Function to log messages
-log() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
-}
 
 # The pmset command output looks like this:
 # Now drawing from 'AC Power'

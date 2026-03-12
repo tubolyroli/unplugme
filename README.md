@@ -33,7 +33,7 @@ No daemons, no background apps, no menu bar icons — just a single scheduled sc
 Open the **Terminal** app on your Mac and paste the following command:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/tubolyroli/unplugme/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/tubolyroli/unplugme/main/install.sh | bash
 ```
 
 ### ✅ Verify it's running
@@ -131,7 +131,7 @@ To manually clear it at any time:
 Don't want it anymore? You can instantly remove UnplugMe, its background daemon, and its config files by running the included uninstaller:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/tubolyroli/unplugme/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/tubolyroli/unplugme/main/uninstall.sh | bash
 ```
 
 This removes the `launchd` agent, the `~/.unplugme/` directory, and all associated files (including logs and the health CSV).
