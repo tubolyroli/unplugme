@@ -8,17 +8,14 @@ It runs silently in the background using macOS's native `launchd` and uses zero 
 - **Silent Background Nudges:** Automatically checks your battery every 2 minutes. If plugged in and $\geq$ 80%, it sends a sliding macOS system notification to nudge you to unplug.
 - **Adjustable Target:** You can natively configure your target stopping point (e.g. 80%, 85%, 90%) using a simple config file.
 - **Battery Health Logging (Optional):** Flip a switch in the config file to quietly generate a `health_log.csv` file mapping out your Cycle Counts, Max Capacity, and degradation over time. 
-- **Easy One-Liner Install:** Your friends can install everything right from their Terminal in 5 seconds.
 
 ## 🚀 Installation
 
 Open the **Terminal** app on your Mac and paste the following command:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/Roland/unplugme/main/install.sh | bash
+curl -sL https://raw.githubusercontent.com/tubolyroli/unplugme/main/install.sh | bash
 ```
-
-*Note: You must change the `Roland` above to your exact GitHub username before sharing this link with friends!*
 
 ## ⚙️ Configuration
 After installing, your active service files are located safely inside a hidden folder in your home directory (`~/.unplugme`). 
@@ -36,5 +33,5 @@ Inside, you will see two variables:
 Don't want it anymore? You can instantly remove UnplugMe, its background daemon, and its config files by running the included uninstaller:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/Roland/unplugme/main/uninstall.sh | bash
+curl -sL https://raw.githubusercontent.com/tubolyroli/unplugme/main/uninstall.sh | bash
 ```
