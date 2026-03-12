@@ -17,7 +17,7 @@ It runs silently in the background using macOS's native `launchd` and uses zero 
 - **Adjustable Target:** You can natively configure your target stopping point (e.g. 80%, 85%, 90%) using a simple config file.
 - **Battery Health Logging (Optional):** Flip a switch in the config file to quietly generate a `health_log.csv` file mapping out your Cycle Counts, Max Capacity, and degradation over time. 
 
-## � How It Works
+## 🏋️‍♂️ How It Works
 
 UnplugMe registers a lightweight `launchd` agent (macOS's native task scheduler) that runs a small shell script every **2 minutes**. Each run:
 
@@ -28,7 +28,7 @@ UnplugMe registers a lightweight `launchd` agent (macOS's native task scheduler)
 
 No daemons, no background apps, no menu bar icons — just a single scheduled script.
 
-## �🚀 Installation
+## 🚀 Installation
 
 Open the **Terminal** app on your Mac and paste the following command:
 
