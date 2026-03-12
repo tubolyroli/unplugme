@@ -12,11 +12,32 @@ HEALTH_LOG="$HOME/.unplugme/health_log.csv"
 if [ ! -f "$CONFIG_FILE" ]; then
     echo "TARGET_PCT=80" > "$CONFIG_FILE"
     echo "ENABLE_HEALTH_LOG=false" >> "$CONFIG_FILE"
+    echo "MAX_LOG_SIZE_MB=1024" >> "$CONFIG_FILE"
     echo "# You can change the target percentage above. Example: TARGET_PCT=85" >> "$CONFIG_FILE"
+    echo "# MAX_LOG_SIZE_MB: Maximum size in MB before the log file is cleared. Default is 1024 (1GB)." >> "$CONFIG_FILE"
 fi
 
 # Load config
 source "$CONFIG_FILE"
+
+# Default MAX_LOG_SIZE_MB if not set
+MAX_LOG_SIZE_MB=${MAX_LOG_SIZE_MB:-1024}
+MAX_LOG_SIZE_BYTES=$((MAX_LOG_SIZE_MB * 1024 * 1024))
+
+# Function to check and clear log size
+check_log_size() {
+    local file=$1
+    if [ -f "$file" ]; then
+        local size=$(stat -f%z "$file" 2>/dev/null || echo 0)
+        if [ "$size" -gt "$MAX_LOG_SIZE_BYTES" ]; then
+            > "$file"
+            echo "$(date '+%Y-%m-%d %H:%M:%S') - Log file $(basename "$file") exceeded ${MAX_LOG_SIZE_MB}MB. Cleared." >> "$LOG_FILE"
+        fi
+    fi
+}
+
+# Run log size checks (Main log only)
+check_log_size "$LOG_FILE"
 
 # Function to log messages
 log() {

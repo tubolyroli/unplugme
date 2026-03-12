@@ -72,9 +72,10 @@ To change your settings, open the `config.txt` file by running this in your term
 open ~/.unplugme/config.txt
 ```
 
-Inside, you will see two variables:
+Inside, you will see several variables:
 - `TARGET_PCT=80` *(Change this to any percentage you want the notification to trigger at)*
 - `ENABLE_HEALTH_LOG=false` *(Change this to `true` if you want UnplugMe to automatically document your long-term battery cycle health in a CSV file!)*
+- `MAX_LOG_SIZE_MB=1024` *(Maximum size in MB before the log file is automatically cleared. Default is 1GB.)*
 
 > **Note:** Changes to `config.txt` take effect automatically on the next check cycle (within 2 minutes). No restart needed.
 
@@ -116,11 +117,15 @@ If UnplugMe is running but you're not seeing any notifications, the most common 
 
 ### Log file growing too large?
 
-The log file (`~/.unplugme/unplugme.log`) will grow over time since a line is written every 2 minutes. To clear it:
+UnplugMe automatically manages the size of its activity log (`~/.unplugme/unplugme.log`). By default, it will clear itself if it exceeds **1GB**. You can adjust this limit in your `config.txt` by changing `MAX_LOG_SIZE_MB`.
+
+To manually clear it at any time:
 
 ```bash
 > ~/.unplugme/unplugme.log
 ```
+
+> **Note:** The `health_log.csv` is **not** automatically cleared to ensure your historical battery data is never accidentally deleted.
 
 ## 🛑 Uninstallation
 Don't want it anymore? You can instantly remove UnplugMe, its background daemon, and its config files by running the included uninstaller:

@@ -26,7 +26,9 @@ touch "$INSTALL_DIR/unplugme.log"
 if [ ! -f "$INSTALL_DIR/config.txt" ]; then
     echo "TARGET_PCT=80" > "$INSTALL_DIR/config.txt"
     echo "ENABLE_HEALTH_LOG=false" >> "$INSTALL_DIR/config.txt"
+    echo "MAX_LOG_SIZE_MB=1024" >> "$INSTALL_DIR/config.txt"
     echo "# You can change the target percentage above. Example: TARGET_PCT=85" >> "$INSTALL_DIR/config.txt"
+    echo "# MAX_LOG_SIZE_MB: Maximum size in MB before the log file is cleared. Default is 1024 (1GB)." >> "$INSTALL_DIR/config.txt"
 fi
 
 # Download and explicitly configure the plist
