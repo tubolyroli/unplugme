@@ -13,7 +13,7 @@ It runs silently in the background using macOS's native `launchd` and uses zero 
 - No dependencies, no Homebrew, no Python — just native macOS tools (`bash`, `launchd`, `pmset`, `osascript`)
 
 ## ✨ Features
-- **Silent Background Nudges:** Automatically checks your battery every 2 minutes. If plugged in and $\geq$ 80%, it sends a sliding macOS system notification to nudge you to unplug.
+- **Silent Background Nudges:** Automatically checks your battery every 2 minutes. If plugged in and >=80%, it sends a sliding macOS system notification to nudge you to unplug.
 - **Adjustable Target:** You can natively configure your target stopping point (e.g. 80%, 85%, 90%) using a simple config file.
 - **Battery Health Logging (Optional):** Flip a switch in the config file to quietly generate a `health_log.csv` file mapping out your Cycle Counts, Max Capacity, and degradation over time. 
 
