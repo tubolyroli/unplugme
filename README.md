@@ -29,6 +29,23 @@ Inside, you will see two variables:
 - `TARGET_PCT=80` *(Change this to any percentage you want the notification to trigger at)*
 - `ENABLE_HEALTH_LOG=false` *(Change this to `true` if you want UnplugMe to automatically document your long-term battery cycle health in a CSV file!)*
 
+## ⚠️ Troubleshooting
+
+### Notifications not appearing?
+
+If UnplugMe is running but you're not seeing any notifications, the most common cause is **macOS Focus modes** (e.g. Do Not Disturb, Work, Sleep, etc.). Focus modes suppress notifications system-wide, which prevents UnplugMe's alerts from appearing.
+
+**To fix this:**
+1. Open **System Settings → Focus**.
+2. Select the Focus mode you have active (e.g. *Do Not Disturb*).
+3. Under **Allowed Notifications**, click **Apps** and add **Script Editor** (since UnplugMe uses `osascript` to send notifications).
+4. Alternatively, you can temporarily disable the active Focus mode from Control Center.
+
+### Other things to check
+- Make sure the service is actually running: `launchctl list | grep unplugme`
+- Check the log file for errors: `cat ~/.unplugme/unplugme.log`
+- Verify your config file is valid: `cat ~/.unplugme/config.txt`
+
 ## 🛑 Uninstallation
 Don't want it anymore? You can instantly remove UnplugMe, its background daemon, and its config files by running the included uninstaller:
 
