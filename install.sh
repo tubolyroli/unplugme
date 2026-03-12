@@ -2,7 +2,7 @@
 
 # Web Installer for UnplugMe (GitHub Version)
 
-REPO_URL="https://raw.githubusercontent.com/Roland/unplugme/main"
+REPO_URL="https://raw.githubusercontent.com/tubolyroli/unplugme/main"
 
 echo "Downloading and Installing UnplugMe from GitHub..."
 
