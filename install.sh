@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Web Installer for UnplugMe (GitHub Version)
+
+REPO_URL="https://raw.githubusercontent.com/Roland/unplugme/main"
+
+echo "Downloading and Installing UnplugMe from GitHub..."
+
+# Define paths
+INSTALL_DIR="$HOME/.unplugme"
+PLIST_NAME="com.user.unplugme.plist"
+LAUNCH_DIR="$HOME/Library/LaunchAgents"
+
+# Create directories
+mkdir -p "$INSTALL_DIR"
+mkdir -p "$LAUNCH_DIR"
+
+# Download the core scripts directly from GitHub
+echo "Fetching latest core script..."
+curl -sL "$REPO_URL/unplugme.sh" -o "$INSTALL_DIR/unplugme.sh"
+curl -sL "$REPO_URL/uninstall.sh" -o "$INSTALL_DIR/uninstall.sh"
+chmod +x "$INSTALL_DIR/unplugme.sh" "$INSTALL_DIR/uninstall.sh"
+
+# Create log file & Default config
+touch "$INSTALL_DIR/unplugme.log"
+if [ ! -f "$INSTALL_DIR/config.txt" ]; then
+    echo "TARGET_PCT=80" > "$INSTALL_DIR/config.txt"
+    echo "ENABLE_HEALTH_LOG=false" >> "$INSTALL_DIR/config.txt"
+    echo "# You can change the target percentage above. Example: TARGET_PCT=85" >> "$INSTALL_DIR/config.txt"
+fi
+
+# Download and explicitly configure the plist
+echo "Configuring background service..."
+curl -sL "$REPO_URL/com.user.unplugme.plist.template" -o "/tmp/unplugme.plist.template"
+sed "s|REPLACE_WITH_PATH|$INSTALL_DIR|g; s|REPLACE_WITH_HOME|$HOME|g" "/tmp/unplugme.plist.template" > "$LAUNCH_DIR/$PLIST_NAME"
+rm "/tmp/unplugme.plist.template"
+
+# Load the service
+echo "Loading launchd service..."
+launchctl unload "$LAUNCH_DIR/$PLIST_NAME" 2>/dev/null
+launchctl load "$LAUNCH_DIR/$PLIST_NAME"
+
+echo "----------------------------------------"
+echo "UnplugMe installed successfully!"
+echo "It will now check your battery every 2 minutes in the background."
+echo "If you want to track your Battery Health CSV, edit ~/.unplugme/config.txt and set ENABLE_HEALTH_LOG=true"
+echo "Logs are available at $INSTALL_DIR/unplugme.log"
